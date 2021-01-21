@@ -1,0 +1,42 @@
+{
+    "name": "ping_pong_python",
+    "modules": ["sight"],
+    "graph": {
+      "nodes": [
+        {
+          "name": "ping",
+          "components": [
+            {
+              "name": "MessageLedger",
+              "type": "isaac::alice::MessageLedger"
+            },
+            {
+              "name": "Ping",
+              "type": "isaac::alice::PyCodelet"
+            }
+          ]
+        },
+        {
+          "name": "pong",
+          "components": [
+            {
+              "name": "MessageLedger",
+              "type": "isaac::alice::MessageLedger"
+            },
+            {
+              "name": "Pong",
+              "type": "isaac::alice::PyCodelet"
+            }
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "source": "ping/Ping/ping_msg",
+          "target": "pong/Pong/pong_msg"
+        }
+      ]
+    },
+    "config": {}
+  }
+  

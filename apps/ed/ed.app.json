@@ -1,0 +1,97 @@
+{
+    "name": "ed",
+    "modules": [
+      "sensors:v4l2_camera",
+      "sight",
+      "viewers"
+    ],
+    "graph": {
+      "nodes": [
+        {
+          "name": "camera",
+          "components": [
+            {
+              "name": "MessageLedger",
+              "type": "isaac::alice::MessageLedger"
+            },
+            {
+              "name": "V4L2Camera",
+              "type": "isaac::V4L2Camera"
+            }
+          ]
+        },
+        {
+          "name": "e_d",
+          "components":[
+              {
+                  "name": "MessageLedger",
+                  "type": "isaac::alice::MessageLedger"
+                },
+                {
+                  "name": "ED",
+                  "type": "isaac::alice::PyCodelet"
+                }
+          ]
+        },
+        {
+          "name": "viewer",
+          "components": [
+            {
+              "name": "MessageLedger",
+              "type": "isaac::alice::MessageLedger"
+            },
+            {
+              "name":"ImageViewer",
+              "type": "isaac::viewers::ImageViewer"
+            }
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "source":"camera/V4L2Camera/frame",
+          "target": "e_d/ED/iimage", 
+          "comments": "source is node/component/input, while target is in this format appname/codelet/input"
+        },
+        {
+          "source":"e_d/ED/oimage",
+          "target": "viewer/ImageViewer/image",
+          "comments":"Source is in appname/codelet/input and target is from node/component/output"
+        }
+      ]
+    },
+    "config": {
+      "camera": {
+        "V4L2Camera": {
+          "device_id":0,
+          "rows": 480,
+          "cols": 640,
+          "rate_hz":30
+        }
+        
+      },
+      "websight":{
+        "WebsightServer": {
+          "port": 3000,
+          "ui_config": {
+            "windows":{
+              "Edge Detection":{
+                "renderer": "2d",
+                "dims": {
+                  "width": 640,
+                  "height": 480
+                },
+                "channels": [
+                  {
+                    "name": "ed/viewer/ImageViewer/image",
+                    "comments": "the channnel is from viewer node"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

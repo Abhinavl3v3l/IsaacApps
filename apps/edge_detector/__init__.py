@@ -1,0 +1,1 @@
+from edge_detector import edge_detector

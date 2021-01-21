@@ -1,0 +1,86 @@
+{
+    "name":"edge_detector",
+    "modules": [
+        "sensors:v4l2_camera",
+        "sight",
+        "viewers"
+    ],
+    "config": {
+      "camera": {
+        "V4L2Camera": {
+          "device_id": 0,
+          "rows": 480,    
+          "cols": 640,
+          "rate_hz": 10
+        }
+      },
+      "websight": {
+        "WebsightServer": {
+          "port": 3000,
+          "ui_config": {
+            "windows": {
+              "Camera": {
+                "renderer": "2d",
+                "channels": [
+                  { "name": "edge_detector/viewer/ImageViewer/image" }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "graph": {
+        "nodes": [
+          {
+            "name": "camera",
+            "components": [
+              {
+                "name": "MessageLedger",
+                "type": "isaac::alice::MessageLedger"
+              },
+              {
+                "name": "V4L2Camera",
+                "type": "isaac::V4L2Camera"
+              }
+            ]
+          },
+          {
+            "name": "viewer",
+            "components": [
+              {
+                "name": "MessageLedger",
+                "type": "isaac::alice::MessageLedger"
+              },
+              {
+                "name": "ImageViewer",
+                "type": "isaac::viewers::ImageViewer"
+              }
+            ]
+          },
+          {
+            "name": "edge_detector_node",
+            "components": [
+              {
+                "name": "MessageLedger",
+                "type": "isaac::alice::MessageLedger"
+              },
+              {
+                "name": "edge_detector_comp",
+                "type": "isaac::alice::PyCodelet"
+              }
+            ]
+          }
+        ],
+        "edges": [
+            {
+              "source": "camera/V4L2Camera/frame",
+              "target": "edge_detector_node/edge_detector_comp/input_image"
+            },
+            {
+              "source": "edge_detector_node/edge_detector_comp/output_image",
+              "target": "viewer/ImageViewer/image"
+            }
+          ]
+    }
+}
