@@ -1,0 +1,22 @@
+1. Default Run - Success
+   `xm430.app.json` - Default Run
+2. Custom Input
+    1. API  understanding
+    2. Understand Proto and Component Info
+    3. Pass a Custom Component Command
+
+
+
+
+
+
+
+----
+
+
+
+
+
+1. Can we alter speed and position using component configuration ?
+   1. If yes we can alter and change via that configuration and alter it in code-let
+   2. If no then find a way to do so using API's

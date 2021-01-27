@@ -1,0 +1,80 @@
+{
+  "name": "xm430_tilt",
+  "modules": [
+    "dynamixel",
+    "sight",
+    "message_generators"
+  ],
+  "config": {
+    "dynamixel_custom": {
+      "isaac.PanTiltDriver": {
+        "use_speed_control": true,
+        "usb_port":"/dev/ttyUSB0",
+        "pan_servo_id": 1,
+        "tilt_servo_id":1,
+        "tilt_min":-0.5,
+        "tilt_max":2.0,
+        "pan_min":0.0,
+        "pan_man":1.0,
+        "pan_offset":5.83,
+        "tilt_offset":4.74,
+        "baudrate":"k57600",
+        "model":1
+      },
+      "isaac.alice.Failsafe": {
+        "name": "robot_failsafe"
+      },
+      "Dynamixel Motors": {
+        "type": "plot",
+        "channels": [ 
+          { "name": "dynamixel/driver/motor_1.command" },
+          { "name": "dynamixel/driver/motor_1.state" }
+        ]
+      }
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "name": "dynamixel_custom",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "Dynamixel Motors",
+            "type": "isaac::sight::SightWidget"
+          },
+          {
+            "name": "isaac.alice.Failsafe",
+            "type": "isaac::alice::Failsafe"
+          },
+          {
+            "name": "isaac.message_generators.PanTiltStateGenerator",
+            "type": "isaac::message_generators::PanTiltStateGenerator"
+          }
+        ]
+      },
+      {
+        "name":"xm430_tilt",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "XM430_TILT",
+            "type": "isaac::alice::PyCodelet"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "dynamixel_custom/isaac.message_generators.PanTiltStateGenerato/state",
+        "target": "xm430/XM430/state_rx"
+      }
+    ]
+  }
+}

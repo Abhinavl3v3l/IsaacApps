@@ -1,0 +1,76 @@
+{
+  "name": "xm430_tilt",
+  "modules": [
+    "dynamixel",
+    "pan_tilt",
+    "sight",
+    "message_generators"
+  ],
+  "config": {
+    "dynamixel_custom": {
+      "isaac.PanTiltDriver": {
+        "tick_period": "50Hz",
+        "usb_port":"/dev/ttyUSB0",
+        "baudrate": "k57600",
+        "model":"XM430",
+        "pan_servo_id":1,
+        "tilt_servo_id":1
+
+      },
+      "isaac.alice.Failsafe": {
+        "name": "robot_failsafe"
+      },
+      "Dynamixel Motors": {
+        "type": "plot",
+        "channels": [ 
+          { "name": "dynamixel_custom/isaac.PanTiltDriver/motor_1.command" },
+          { "name": "dynamixel_custom/isaac.PanTiltDriver/motor_1.state" }
+        ]
+      }
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "name": "dynamixel_custom",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "Dynamixel Motors",
+            "type": "isaac::sight::SightWidget"
+          },
+          {
+            "name": "isaac.alice.Failsafe",
+            "type": "isaac::alice::Failsafe"
+          },
+          {
+            "name": "isaac.PanTiltDriver",
+            "type": "isaac::PanTiltDriver"
+          }
+        ]
+      },
+      {
+        "name":"xm430_tilt",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "XM430_TILT",
+            "type": "isaac::alice::PyCodelet"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "dynamixel_custom/isaac.PanTiltDriver/state",
+        "target": "xm430_tilt/XM430_TILT/state_rx"
+      }
+    ]
+  }
+}
