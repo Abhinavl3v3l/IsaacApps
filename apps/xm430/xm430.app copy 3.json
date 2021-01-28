@@ -9,12 +9,15 @@
       "driver": {
         "tick_period": "50Hz",
         "port": "/dev/ttyUSB0",
+        "debug_mode": false,
+        "debug_speed": 3.0,
         "servo_ids": [1], 
         "servo_model": "XM430",
         "max_speed":6.0,
-        "command_timeout":1,
+        "command_timeout":0.3,
+        "torque_limit":0.5,
         "baudrate": "k57600",
-        "control_mode":"velocity"
+        "control_mode": "velocity"
       },
       "isaac.alice.Failsafe": {
         "name": "robot_failsafe"
@@ -25,21 +28,6 @@
           { "name": "dynamixel/driver/motor_1.command" },
           { "name": "dynamixel/driver/motor_1.state" }
         ]
-      }
-    },
-    "xm430_mg": {
-    "driver": {
-      "tick_period": "50Hz",
-      "port": "/dev/ttyUSB0",
-      "servo_ids": [1], 
-      "servo_model": "XM430",
-      "max_speed":6.0,
-      "command_timeout":1,
-      "baudrate": "k57600",
-      "control_mode":"velocity"
-      },
-    "isaac.alice.Failsafe": {
-      "name": "robot_failsafe"
       }
     }
   },
@@ -89,22 +77,18 @@
           {
             "name": "XM430_MG",
             "type": "isaac::alice::PyCodelet"
-          },
-          {
-            "name": "driver2",
-            "type": "isaac::dynamixel::DynamixelDriver"
-          },
-          {
-            "name": "isaac.alice.Failsafe",
-            "type": "isaac::alice::Failsafe"
           }
         ]
       }
     ],
     "edges": [
       {
-        "source": "xm430_mg/XM430_MG/state_tx",
-        "target": "xm430_mg/driver2/command"
+        "source": "xm430_mg/XM430_MG/state",
+        "target": "dynamixel/driver/command"
+      },
+      {
+        "source": "xm430_mg/XM430_MG/state",
+        "target": "xm430/XM430/command"
       }
     ]
   }
