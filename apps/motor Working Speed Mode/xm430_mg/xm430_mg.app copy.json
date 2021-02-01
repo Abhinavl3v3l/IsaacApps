@@ -1,0 +1,100 @@
+{
+  "name": "xm430_mg",
+  "modules": [
+    "dynamixel",
+    "sight"
+  ],
+  "config": {
+    "dynamixel": {
+      "driver": {
+        "tick_period": "50Hz",
+        "port": "/dev/ttyUSB0",
+        "servo_ids": [  
+          2
+        ],
+        "servo_model": "XM430",
+        "max_speed": 6.0,
+        "command_timeout": 0.2,
+        "baudrate": "k57600",
+        "debug_mode":false ,
+        "debug_speed":2.0,
+        "control_mode":"velocity" ,
+        "torque_limit":0.9
+
+      },
+      "isaac.alice.Failsafe": {
+        "name": "robot_failsafe"
+      },
+      "Dynamixel Motors": {
+        "type": "plot",
+        "channels": [
+          {
+            "name": "dynamixel/driver/motor_1.command"
+          },
+          {
+            "name": "dynamixel/driver/motor_1.state"
+          }
+        ]
+      }
+    },
+      "xm430_mg":{
+      "isaac.alice.FailsafeHeartbeat": {
+        "interval": 0.25,
+        "failsafe_name": "robot_failsafe",
+        "heartbeat_name": "deadman_switch"
+      }
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "name": "dynamixel",  
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "driver",
+            "type": "isaac::dynamixel::DynamixelDriver"
+          },
+          {
+            "name": "Dynamixel Motors",
+            "type": "isaac::sight::SightWidget"
+          },
+          {
+            "name": "isaac.alice.Failsafe",
+            "type": "isaac::alice::Failsafe"
+          }
+        ]
+      },
+      {
+        "name": "xm430_mg",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "XM430_MG",
+            "type": "isaac::alice::PyCodelet"
+          },
+          {
+            "name": "isaac.alice.FailsafeHeartbeat",
+            "type": "isaac::alice::FailsafeHeartbeat"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "xm430_mg/XM430_MG/state",
+        "target": "dynamixel/driver/command"
+      },
+      {
+        "source": "dynamixel/driver/state",
+        "target": "xm430_mg/XM430_MG/command"
+      }
+    ]
+  }
+}
