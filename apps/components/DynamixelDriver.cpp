@@ -55,7 +55,10 @@ void DynamixelDriver::tick() {
   // Special helper debug mode which sends constant speed to motors
   if (get_debug_mode()) {
     Fill(command, get_debug_speed());
-  } else {
+  } else if(get_debug_position_mode()){
+    Fill(command, get_position());
+  }
+  else{
     if (!receiveCommand(command.view())) {
       Fill(command, 0.0);
     }
@@ -63,12 +66,12 @@ void DynamixelDriver::tick() {
 
   if (!writeCommand(command.const_view())) {
     return;
-  }
+  } 
 
   readAndPublishState();
 }
 
-void DynamixelDriver::stop() {
+void DynamixelDriver::stop() {  
   disableDynamixels();
 }
 
@@ -193,7 +196,7 @@ bool DynamixelDriver::writeCommand(TensorConstView1d command) {
 
   DynamixelMode mode = get_control_mode();
 
-  LOG_DEBUG(" Dynamixel Mode is %d ",mode );
+  // LOG_DEBUG(" Dynamixel Mode is %d ",mode );
   if(mode == DynamixelMode::kVelocity){
     double max_speed = get_max_speed();
     if (max_speed < 0.0) {
@@ -208,7 +211,7 @@ bool DynamixelDriver::writeCommand(TensorConstView1d command) {
 
       // Get and clamp speed
       double servo_speed = command(i); //Return speed of servo at index i
-      LOG_DEBUG(" Servo Speed : %f and command(%d) is %f",servo_speed,i,command(i));
+      // LOG_DEBUG(" Servo Speed : %f and command(%d) is %f",servo_speed,i,command(i));
       if (std::abs(servo_speed) > max_speed) {
         servo_speed = std::copysign(max_speed, servo_speed);
       }
@@ -240,22 +243,22 @@ bool DynamixelDriver::writeCommand(TensorConstView1d command) {
     return true;
   }
   else if(mode == DynamixelMode::kPosition){
-    LOG_DEBUG(" Dynamixel Mode is %d ",mode );
+    // LOG_DEBUG(" Dynamixel Mode is %d ",mode );
     
     bool success = true;
     for (size_t i = 0; i < servo_ids_.size(); i++) {
       const int servo_id = servo_ids_[i];
 
-      LOG_DEBUG(" VALUE OF COMMAND IS %i ", command(i));
-      int current_position  = dynamixel_->readRegister(servo_id, RegisterKey::CURRENT_POSITION);
-      LOG_DEBUG("CURRENT POSITION VALUE %d", current_position);
+      // LOG_DEBUG(" VALUE OF COMMAND IS %i ", command(i));
+      // int current_position  = dynamixel_->readRegister(servo_id, RegisterKey::CURRENT_POSITION);
+      // LOG_DEBUG("CURRENT POSITION VALUE %d", current_position);
       
       unsigned int goal_position = command(i); //Value between 0 - 4095      
 
       //Write to motor
-      LOG_DEBUG("Running in Position Mode.");
+      // LOG_DEBUG("Running in Position Mode.");
       const bool failed = dynamixel_->writeRegister(servo_id, RegisterKey::GOAL_POSITION,
-                                                    dynamixel_->getAngleToTicks(goal_position));
+                                                    goal_position);
       success &= failed;
 
       // Show with sight
@@ -308,14 +311,18 @@ void DynamixelDriver::readAndPublishState() {
     Tensor3d actual_position(1, 1, servo_ids_.size());
     for (size_t i = 0; i < servo_ids_.size(); i++) {
       const int servo_id = servo_ids_[i];
-      const int current_position_back =
+      const unsigned int current_position_back =
           dynamixel_->readRegister(servo_id, RegisterKey::CURRENT_POSITION);
-      actual_position(0, 0, i) = dynamixel_->getTicksToAngle(current_position_back);
+      // LOG_DEBUG("Current Position Back %i ", current_position_back);
+      actual_position(0, 0, i) = current_position_back;
+      // LOG_DEBUG("Actual Position %i ", actual_position(0,0,i));
 
       // Visualize with sight
       const std::string key = "motor_" + std::to_string(i + 1);
       show(key + ".state", actual_position(0, 0, i));
     }
+    ToProto(std::move(actual_position), tx_state().initProto().initPack(), tx_state().buffers());
+    tx_state().publish();
   }
   else{
       LOG_ERROR(" Unknown Operation mode Selected");

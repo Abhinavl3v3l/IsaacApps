@@ -1,7 +1,7 @@
 /*
 Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
 
-NVIDIA CORPORATION and its licensors retain all intellectual property
+NVIDIA CORPORATION and its licensors retain all intellectual  perty
 and proprietary rights in and to this software, related documentation
 and any modifications thereto. Any use, reproduction, disclosure or
 distribution of this software and related documentation without an express
@@ -61,6 +61,9 @@ class DynamixelDriver : public alice::Codelet {
   ISAAC_PARAM(bool, debug_mode, false);
   // If debug mode is enabled, all motors will rotate with this speed.
   ISAAC_PARAM(double, debug_speed, 1.0);
+  ISAAC_PARAM(bool, debug_position_mode, false);
+  ISAAC_PARAM(double, position, 1.0);
+  ISAAC_PARAM(double, speed, 1.0);
 
  private:
   // Initializes verified servo IDs from configuration
