@@ -1,0 +1,75 @@
+{
+  "name": "mx106_mg",
+  "modules": ["dynamixel", "sight"],
+  "config": {
+    "dynamixel": {
+      "driver106": {
+        "tick_period": "50Hz",
+        "port": "/dev/ttyUSB0",
+        "servo_ids": [9, 11],
+        "servo_model": "MX106",
+        "baudrate": "k1M",
+        "max_speed": 3.0,
+        "debug_mode": false,
+        "debug_speed": 1.0,
+        "debug_position_mode": false,
+        "speed": 1.0
+      }
+    },
+    "Dynamixel Motors": {
+      "type": "plot",
+      "channels": [
+        {
+          "name": "dynamixel/driver/motor_1.command"
+        },
+        {
+          "name": "dynamixel/driver/motor_2.state"
+        }
+      ]
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "name": "dynamixel",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "driver106",
+            "type": "isaac::dynamixel::DynamixelDriver"
+          },
+          {
+            "name": "Dynamixel Motors",
+            "type": "isaac::sight::SightWidget"
+          }
+        ]
+      },
+      {
+        "name": "mx106_mg",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "MX106_MG",
+            "type": "isaac::alice::PyCodelet"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "mx106_mg/MX106_MG/state",
+        "target": "dynamixel/driver106/state"
+      },
+      {
+        "source": "dynamixel/driver106/command",
+        "target": "mx106_mg/MX106_MG/command"
+      }
+    ]
+  }
+}

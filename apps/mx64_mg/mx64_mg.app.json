@@ -1,0 +1,75 @@
+{
+  "name": "mx64_mg",
+  "modules": ["dynamixel", "sight"],
+  "config": {
+    "dynamixel": {
+      "driver64": {
+        "tick_period": "50Hz",
+        "port": "/dev/ttyUSB0",
+        "servo_ids": [15],
+        "servo_model": "MX64",
+        "baudrate": "k1M",
+        "max_speed": 4.8,
+        "debug_mode": false,
+        "debug_speed": 1.0,
+        "debug_position_mode": false,
+        "speed": 1.0
+      }
+    },
+    "Dynamixel Motors": {
+      "type": "plot",
+      "channels": [
+        {
+          "name": "dynamixel/driver/motor_1.command"
+        },
+        {
+          "name": "dynamixel/driver/motor_2.state"
+        }
+      ]
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "name": "dynamixel",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "driver64",
+            "type": "isaac::dynamixel::DynamixelDriver"
+          },
+          {
+            "name": "Dynamixel Motors",
+            "type": "isaac::sight::SightWidget"
+          }
+        ]
+      },
+      {
+        "name": "mx64_mg",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "MX64_MG",
+            "type": "isaac::alice::PyCodelet"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "mx64_mg/MX64_MG/state",
+        "target": "dynamixel/driver64/state"
+      },
+      {
+        "source": "dynamixel/driver64/command",
+        "target": "mx64_mg/MX64_MG/command"
+      }
+    ]
+  }
+}
