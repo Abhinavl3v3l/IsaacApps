@@ -162,8 +162,8 @@ namespace isaac
           dynamixel_->writeRegister(servo, RegisterKey::TORQUE_ENABLE, 0);
 
           
-          // dynamixel_->writeRegister(servo, RegisterKey::CW_ANGLE_LIMIT, 0);
-          // dynamixel_->writeRegister(servo, RegisterKey::CCW_ANGLE_LIMIT, 0);
+          dynamixel_->writeRegister(servo, RegisterKey::CW_ANGLE_LIMIT, 0);
+          dynamixel_->writeRegister(servo, RegisterKey::CCW_ANGLE_LIMIT, 0);
 
           dynamixel_->writeRegister(servo, RegisterKey::TORQUE_LIMIT,
                                   static_cast<int>(torqueLimit * kMaxTorqueLimit));
@@ -193,9 +193,11 @@ namespace isaac
             {
               servo_speed = std::copysign(max_speed, servo_speed);
             }
+            // dynamixel_->writeRegister(servo, RegisterKey::MIN_VOLTAGE_LIMIT, 60);
+            // dynamixel_->writeRegister(servo, RegisterKey::MAX_VOLTAGE_LIMIT, 160);
 
             // Write to motor
-            LOG_DEBUG("Check MOVING_SPEED TESTING 64 %f", dynamixel_->readRegister(servo, RegisterKey::MOVING_SPEED));
+            // LOG_DEBUG("Check MOVING_SPEED TESTING 64 %f", dynamixel_->readRegister(servo, RegisterKey::MOVING_SPEED));
             LOG_DEBUG("Updating Speed of Servo MX64  to %f", servo_speed);
             dynamixel_->writeRegister(servo, RegisterKey::MOVING_SPEED,dynamixel_->getAngularSpeedToTicks(servo_speed)); //Return speed of servo at index iToTicks(servo_speed));
           }
@@ -205,8 +207,8 @@ namespace isaac
         else if(model == Model::MX106){
           LOG_DEBUG("Enabling Dynamixel for MX106");
           dynamixel_->writeRegister(servo, RegisterKey::TORQUE_ENABLE, 0);
-          dynamixel_->writeRegister(servo, RegisterKey::CW_ANGLE_LIMIT, 471);
-          dynamixel_->writeRegister(servo, RegisterKey::CCW_ANGLE_LIMIT, 2848);
+          // dynamixel_->writeRegister(servo, RegisterKey::CW_ANGLE_LIMIT, 471);
+          // dynamixel_->writeRegister(servo, RegisterKey::CCW_ANGLE_LIMIT, 2848);
 
           dynamixel_->writeRegister(servo, RegisterKey::TORQUE_LIMIT,
                                     static_cast<int>(torqueLimit * kMaxTorqueLimit));
@@ -224,7 +226,7 @@ namespace isaac
             }
 
             // Write to motor
-            LOG_DEBUG("Check MOVING_SPEED TESTING 106 %f", dynamixel_->readRegister(servo, RegisterKey::MOVING_SPEED));
+            // LOG_DEBUG("Check MOVING_SPEED TESTING 106 %f", dynamixel_->readRegister(servo, RegisterKey::MOVING_SPEED));
             LOG_DEBUG("Updating Speed of Servo MX106 %f", servo_speed);
             dynamixel_->writeRegister(servo, RegisterKey::MOVING_SPEED, dynamixel_->getAngularSpeedToTicks(servo_speed)); //Return speed of servo at index iToTicks(servo_speed));
           }
@@ -379,12 +381,12 @@ namespace isaac
           {
             const int servo_id = servo_ids_[i];
 
-            LOG_DEBUG(" VALUE OF COMMAND IS %i ", command(i));
+            LOG_DEBUG(" VALUE OF COMMAND FOR SERVO ID %i is %i ",servo_id, command(i));;
             // int current_position  = dynamixel_->readRegister(servo_id, RegisterKey::CURRENT_POSITION);
             // LOG_DEBUG("CURRENT POSITION VALUE %d", current_position);
 
             unsigned int goal_position = command(i); //Value between 0 - 4095
-            LOG_DEBUG(" GOAL POSITION IS %u ", goal_position);
+            LOG_DEBUG(" GOAL POSITION FOR SERVO ID %i is %u ",servo_id, goal_position);
             //Write to motor
             // LOG_DEBUG("Running in Position Mode.");
             const bool failed = dynamixel_->writeRegister(servo_id, RegisterKey::GOAL_POSITION,
@@ -428,12 +430,12 @@ namespace isaac
         {
           const int servo_id = servo_ids_[i];
 
-          LOG_DEBUG(" VALUE OF COMMAND IS %i ", command(i));
+          LOG_DEBUG(" VALUE OF COMMAND FOR SERVO ID %i is %i ",servo_id, command(i));
           int current_position  = dynamixel_->readRegister(servo_id, RegisterKey::CURRENT_POSITION);
           LOG_DEBUG("CURRENT POSITION VALUE %d", current_position);
 
           // unsigned int goal_position = command(i); //Value between 0 - 4095
-          unsigned int goal_position = 2010; //Value between 0 - 4095
+          unsigned int goal_position = command(i); //Value between 0 - 4095
           //Write to motor
           LOG_DEBUG("Writing Register  for GOAL POSITION ");
 
@@ -471,7 +473,7 @@ namespace isaac
         {
           const int servo_id = servo_ids_[i];
 
-          LOG_DEBUG(" VALUE OF COMMAND IS %i ", command(i));
+          LOG_DEBUG(" VALUE OF COMMAND FOR SERVO ID %i is %i ",servo_id, command(i));
           // int current_position  = dynamixel_->readRegister(servo_id, RegisterKey::CURRENT_POSITION);
           // LOG_DEBUG("CURRENT POSITION VALUE %d", current_position);
 
@@ -579,7 +581,7 @@ namespace isaac
           const int servo_id = servo_ids_[i];
           const unsigned int current_position_back =
               dynamixel_->readRegister(servo_id, RegisterKey::CURRENT_POSITION);
-          // LOG_DEBUG("Current Position Back %i ", current_position_back);
+          LOG_DEBUG("Current Position Back %i ", current_position_back);
           actual_position(0, 0, i) = current_position_back;
           // LOG_DEBUG("Actual Position %i ", actual_position(0,0,i));
 
@@ -598,6 +600,7 @@ namespace isaac
         for (size_t i = 0; i < servo_ids_.size(); i++)
         {
           const int servo_id = servo_ids_[i];
+          LOG_DEBUG("Reading Register with ID %i", servo_id);
           const unsigned int current_position_back =
               dynamixel_->readRegister(servo_id, RegisterKey::CURRENT_POSITION);
           // LOG_DEBUG("Current Position Back %i ", current_position_back);

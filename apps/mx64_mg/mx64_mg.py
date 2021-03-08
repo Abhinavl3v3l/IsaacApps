@@ -83,8 +83,8 @@ class MX64_MG(Codelet):
 
     def start(self):
         # MX64
-        self.tx_64 = self.isaac_proto_tx("StateProto", "command")
-        self.rx_64 = self.isaac_proto_rx("StateProto", "state")
+        self.tx = self.isaac_proto_tx("StateProto", "command")
+        self.rx = self.isaac_proto_rx("StateProto", "state")
         self.tick_periodically(0.2)
 
         # Sight Config for Joints
@@ -94,25 +94,25 @@ class MX64_MG(Codelet):
         '''
             TX and RX between  MX64 and Dynamixel Drivers
         '''
-        tx_64_message = self.tx_64.init()
+        tx_message = self.tx.init()
 
         ''' Adding to Proto'''
-        tx_64_message.proto.pack.elementType = 3  # Float64
-        tx_64_message.proto.pack.sizes = [1, 1, 1]
-        tx_64_message.proto.pack.scanlineStride = 0
-        tx_64_message.proto.pack.dataBufferIndex = 0
-        tx_64_message.proto.schema = "StateProto"
+        tx_message.proto.pack.elementType = 3  # Float64
+        tx_message.proto.pack.sizes = [1, 1, 1]
+        tx_message.proto.pack.scanlineStride = 0
+        tx_message.proto.pack.dataBufferIndex = 0
+        tx_message.proto.schema = "StateProto"
 
         buffer_64 = np.empty([1, 1, 1], dtype=np.dtype('float64'))
         buffer_64[0][0][0] = self.config.mx64
 
         # Set Buffer for MX164
-        tx_64_message.buffers = [buffer_64]
+        tx_message.buffers = [buffer_64]
 
         # Publish
-        self.tx_64.publish()
+        self.tx.publish()
 
-        state_msg = self.rx_64.message  # MessageReader
+        state_msg = self.rx.message  # MessageReader
         if state_msg is None:
             return "Nothing Received"
         if(DEBUG_MODE):

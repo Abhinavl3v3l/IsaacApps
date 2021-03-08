@@ -8,14 +8,18 @@ import numpy as np
 JSON_FILE = r"apps/samples/xm430_mg_sophia/xm430_mg.app.json"
 
 # To view the State Proto
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 
 class XM430_MG(Codelet):
 
     def start(self):
-        self.tx = self.isaac_proto_tx("StateProto", "state")
-        self.rx = self.isaac_proto_rx("StateProto", "command")
+        '''
+            Dynamixel(TX)   -----State---->         (RX) XM430
+            XM430(TX)       -----command----->      (RX) Dynamixel
+        '''
+        self.tx = self.isaac_proto_tx("StateProto", "command")
+        self.rx = self.isaac_proto_rx("StateProto", "state")
         self.tick_periodically(0.2)
 
         # Sight Config for Joints

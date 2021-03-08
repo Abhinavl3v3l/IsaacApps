@@ -96,7 +96,7 @@ std::map<RegisterKey, ServoRegister> InitRegisters(Model model) {
       {RegisterKey::SHUTDOWN, {18, 1, 0, 3}},                            //  Shutdown Error Information
       {RegisterKey::TORQUE_ENABLE, {24, 1, 0, 1}},                       //  Motor Torque On/Off
       {RegisterKey::LED, {25, 1, 0, 1}},                                 //  Status LED On/Off
-      {RegisterKey::GOAL_POSITION, {30, 2, 0, 4095}},                    //  Target Position
+      {RegisterKey::GOAL_POSITION, {30, 2, 0, 1}},                       //  Target Position
       {RegisterKey::MOVING_SPEED, {32, 2, 0, 1023}},                     //  Moving Speed | Wheel Mode: 0 ~ 2,047(0x7FF) can be used, the unit is about 0.1%. | Join Mode: 0 ~ 1,023(0x3FF) can be used, and the unit is about 0.111rpm.
       {RegisterKey::TORQUE_LIMIT, {34, 2, 0, 1023}},                     //  Torque Limit(Goal Torque) unit is about 0.1%.
       {RegisterKey::CURRENT_POSITION, {36, 2, 0, 1023}},                 //  Present Position - unit is 0.29 [°]
@@ -119,15 +119,15 @@ std::map<RegisterKey, ServoRegister> InitRegisters(Model model) {
       {RegisterKey::CCW_ANGLE_LIMIT, {8, 2, 0, 4095}},                   //  Counter-Clockwise Angle Limit - The unit is 0.29°.
       {RegisterKey::DRIVE_MODE, {10, 1, 0, 0}},                          //  Drive Mode for Dynamixel Motor Bit :  0(0x01) Normal[0]/ReverseMode[1], Bit 1(0x02) Master/Slave Mode(Dual Joint) , Rest bit ununsed.This entry is always set to normal mode  CCW Positive and CW Negative
       {RegisterKey::TEMPERATURE_LIMIT, {11, 1, 0, 99}},                  //  Maximum Internal Temperature Limit - Do not change!!
-      {RegisterKey::MIN_VOLTAGE_LIMIT, {12, 1, 50, 160}},                //  Minimum Input Voltage Limit
-      {RegisterKey::MAX_VOLTAGE_LIMIT, {13, 1, 50, 160}},                //  Maximum Input Voltage Limit
+      {RegisterKey::MIN_VOLTAGE_LIMIT, {12, 1, 60, 160}},                //  Minimum Input Voltage Limit
+      {RegisterKey::MAX_VOLTAGE_LIMIT, {13, 1, 60, 160}},                //  Maximum Input Voltage Limit
       {RegisterKey::MAX_TORQUE, {14, 2, 0, 1023}},                       //  Maximum Torque -  the unit is about 0.1%.
       {RegisterKey::STATUS_RETURN_LEVEL, {16, 1, 0, 3}},                 //  Select Types of Status Return (0 - PING, 1 PING READ or 2 ALL)
       {RegisterKey::ALARM_LED, {17, 1, 0, 3}},                           //  LED for Alarm
       {RegisterKey::SHUTDOWN, {18, 1, 0, 3}},                            //  Shutdown Error Information
       {RegisterKey::TORQUE_ENABLE, {24, 1, 0, 1}},                       //  Motor Torque On/Off
       {RegisterKey::LED, {25, 1, 0, 1}},                                 //  Status LED On/Off
-      {RegisterKey::GOAL_POSITION, {30, 2, 0, 4095}},                    //  Target Position
+      {RegisterKey::GOAL_POSITION, {30, 2, 0, 1}},                       //  Target Position
       {RegisterKey::MOVING_SPEED, {32, 2, 0, 1023}},                     //  Moving Speed | Wheel Mode: 0 ~ 2,047(0x7FF) can be used, the unit is about 0.1%. | Join Mode: 0 ~ 1,023(0x3FF) can be used, and the unit is about 0.111rpm.
       {RegisterKey::TORQUE_LIMIT, {34, 2, 0, 1023}},                     //  Torque Limit(Goal Torque) unit is about 0.1%.
       {RegisterKey::CURRENT_POSITION, {36, 2, 0, 1023}},                 //  Present Position - unit is 0.29 [°]

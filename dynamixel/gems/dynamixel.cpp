@@ -48,6 +48,7 @@ Dynamixel::Dynamixel(const std::string& port_name, Baudrate baudrate, Model mode
   model_ = model;
   const float protocol = GetProtocol(model);
   packet_handler_ = ::dynamixel::PacketHandler::getPacketHandler(protocol);
+  LOG_DEBUG("PacketHandler's Protocol Version %f",packet_handler_->getProtocolVersion());
   port_handler_ = ::dynamixel::PortHandler::getPortHandler(port_name.c_str());
   if (!port_handler_->openPort()) {
     LOG_ERROR("Cannot open port %s: %s [errno %d]",  port_name.c_str(), strerror(errno), errno);
@@ -131,12 +132,16 @@ bool Dynamixel::writeRegister(uint8_t servo, const RegisterKey& key, int value) 
   const ServoRegister servo_register = search->second;
   switch (servo_register.size) {
     case 1:
-      dxl_comm_result = packet_handler_->write1ByteTxRx(
-                        port_handler_, servo, servo_register.address, value, &status_);
+      // dxl_comm_result = packet_handler_->write1ByteTxRx(
+      //                   port_handler_, servo, servo_register.address, value, &status_);
+      dxl_comm_result = packet_handler_->write1ByteTxOnly(
+                        port_handler_, servo, servo_register.address, value);
       break;
     case 2:
-      dxl_comm_result = packet_handler_->write2ByteTxRx(
-                        port_handler_, servo, servo_register.address, value, &status_);
+      // dxl_comm_result = packet_handler_->write2ByteTxRx(
+      //                   port_handler_, servo, servo_register.address, value, &status_);
+      dxl_comm_result = packet_handler_->write2ByteTxOnly(
+                        port_handler_, servo, servo_register.address, value);
       break;
     case 4:
       dxl_comm_result = packet_handler_->write4ByteTxRx(

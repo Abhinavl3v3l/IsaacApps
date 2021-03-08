@@ -13,7 +13,8 @@
         "debug_mode": false,
         "debug_speed": 1.0,
         "debug_position_mode": false,
-        "speed": 1.0
+        "position": 2000,
+        "speed": 2.0
       }
     },
     "Dynamixel Motors": {
@@ -63,12 +64,12 @@
     ],
     "edges": [
       {
-        "source": "mx64_mg/MX64_MG/state",
-        "target": "dynamixel/driver64/state"
+        "source": "mx64_mg/MX64_MG/command",
+        "target": "dynamixel/driver64/command"
       },
       {
-        "source": "dynamixel/driver64/command",
-        "target": "mx64_mg/MX64_MG/command"
+        "source": "dynamixel/driver64/state",
+        "target": "mx64_mg/MX64_MG/state"
       }
     ]
   }

@@ -79,40 +79,40 @@ Edges
 '''
 
 
-class XM106_MG(Codelet):
+class MX106_MG(Codelet):
 
     def start(self):
         # MX106
-        self.tx_106 = self.isaac_proto_tx("StateProto", "command")
-        self.rx_106 = self.isaac_proto_rx("StateProto", "state")
-        self.tick_periodically(1)
+        self.tx = self.isaac_proto_tx("StateProto", "command")
+        self.rx = self.isaac_proto_rx("StateProto", "state")
+        self.tick_periodically(0.2)
 
         # Sight Config for Joints
-        self.config.mx106_1 = 2000  # 8  (471 - 2848)
-        self.config.mx106_2 = 2333  # 10 (758 - 2585)
+        self.config.mx106_1 = 1500  # 8  (471 - 2848)
+        self.config.mx106_2 = 1000  # 10 (758 - 2585)
 
     def tick(self):
         '''TX and RX between  MX106 and Dynamixel Drivers'''
-        tx_106_message = self.tx_106.init()
+        tx_message = self.tx.init()
 
         ''' Adding to Proto'''
-        tx_106_message.proto.pack.elementType = 3  # Float64
-        tx_106_message.proto.pack.sizes = [1, 1, 2]
-        tx_106_message.proto.pack.scanlineStride = 0
-        tx_106_message.proto.pack.dataBufferIndex = 0
-        tx_106_message.proto.schema = "StateProto"
+        tx_message.proto.pack.elementType = 3  # Float64
+        tx_message.proto.pack.sizes = [1, 1, 2]
+        tx_message.proto.pack.scanlineStride = 0
+        tx_message.proto.pack.dataBufferIndex = 0
+        tx_message.proto.schema = "StateProto"
 
         buffer_106 = np.empty([1, 1, 2], dtype=np.dtype('float64'))
         buffer_106[0][0][0] = self.config.mx106_1
         buffer_106[0][0][1] = self.config.mx106_2
 
         # Set Buffer for MX106
-        tx_106_message.buffers = [buffer_106]
+        tx_message.buffers = [buffer_106]
 
         # Publish
-        self.tx_106.publish()
+        self.tx.publish()
 
-        state_msg = self.rx_106.message  # MessageReader
+        state_msg = self.rx.message  # MessageReader
         if state_msg is None:
             return "Nothing Received"
         if(DEBUG_MODE):
@@ -131,7 +131,7 @@ def main():
     app = Application(app_filename=JSON_FILE)
     print("JSON LOADED")
     print('Adding Nodes')
-    app.nodes["mx106_mg"].add(name="XM106_MG", ctype=MX106_MG)
+    app.nodes["mx106_mg"].add(name="MX106_MG", ctype=MX106_MG)
     print('Nodes Added\nRunning Application')
     app.run()
 

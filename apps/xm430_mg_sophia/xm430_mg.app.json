@@ -1,17 +1,12 @@
 {
   "name": "xm430_mg",
-  "modules": [
-    "dynamixel",
-    "sight"
-  ],
+  "modules": ["dynamixel", "sight"],
   "config": {
     "dynamixel": {
       "driver": {
         "tick_period": "50Hz",
         "port": "/dev/ttyUSB0",
-        "servo_ids": [
-          13, 17, 19, 21
-        ],
+        "servo_ids": [13, 17, 19, 21],
         "servo_model": "XM430",
         "baudrate": "k1M",
         "debug_mode": false,
@@ -23,7 +18,8 @@
       },
       "Dynamixel Motors": {
         "type": "plot",
-        "channels": [{
+        "channels": [
+          {
             "name": "dynamixel/driver/motor_1.command"
           },
           {
@@ -52,9 +48,11 @@
     }
   },
   "graph": {
-    "nodes": [{
+    "nodes": [
+      {
         "name": "dynamixel",
-        "components": [{
+        "components": [
+          {
             "name": "message_ledger",
             "type": "isaac::alice::MessageLedger"
           },
@@ -70,7 +68,8 @@
       },
       {
         "name": "xm430_mg",
-        "components": [{
+        "components": [
+          {
             "name": "message_ledger",
             "type": "isaac::alice::MessageLedger"
           },
@@ -81,13 +80,14 @@
         ]
       }
     ],
-    "edges": [{
-        "source": "xm430_mg/XM430_MG/state",
+    "edges": [
+      {
+        "source": "xm430_mg/XM430_MG/command",
         "target": "dynamixel/driver/command"
       },
       {
         "source": "dynamixel/driver/state",
-        "target": "xm430_mg/XM430_MG/command"
+        "target": "xm430_mg/XM430_MG/state"
       }
     ]
   }
