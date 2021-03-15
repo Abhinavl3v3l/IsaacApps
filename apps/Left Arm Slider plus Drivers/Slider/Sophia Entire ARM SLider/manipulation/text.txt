@@ -1,0 +1,183 @@
+Proto Check
+Quantities - List of Qunatities\(Entity, Element Type, Measure `\) 
+[ ( entity = "shoulder_pan_joint",elementType = uint8,measure = position ),
+  ( entity = "shoulder_pan_joint",elementType = uint8,measure = speed ),
+  ( entity = "shoulder_lift_joint",elementType = uint8,measure = position ),
+  ( entity = "shoulder_lift_joint",elementType = uint8, measure = speed ),
+  (entity = "elbow_joint", elementType = uint8, measure = position),
+  (entity = "elbow_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_1_joint", elementType = uint8, measure = position),
+  (entity = "wrist_1_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_2_joint", elementType = uint8, measure = position),
+  (entity = "wrist_2_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_3_joint", elementType = uint8, measure = position),
+  (entity = "wrist_3_joint", elementType = uint8, measure = speed) ]
+Schema Hash or Schema ID
+
+Values  -  Tensor Proto
+( elementType = float64,
+  sizes = [12],
+  scanlineStride = 0,
+  dataBufferIndex = 0 )
+Tensor Values 
+[ 1.718e+00  1.660e-03  1.435e-01 -7.796e-02  5.280e-02 -7.283e-03 4.563e-03  1.712e-02  2.964e-03 -1.256e-02 -3.224e-03  5.039e-03]
+Proto Check
+Quantities - List of Qunatities\(Entity, Element Type, Measure `\) 
+[ ( entity = "shoulder_pan_joint",
+    elementType = uint8,
+    measure = position ),
+  ( entity = "shoulder_pan_joint",
+    elementType = uint8,
+    measure = speed ),
+  ( entity = "shoulder_lift_joint",
+    elementType = uint8,
+    measure = position ),
+  ( entity = "shoulder_lift_joint",
+    elementType = uint8,
+    measure = speed ),
+  (entity = "elbow_joint", elementType = uint8, measure = position),
+  (entity = "elbow_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_1_joint", elementType = uint8, measure = position),
+  (entity = "wrist_1_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_2_joint", elementType = uint8, measure = position),
+  (entity = "wrist_2_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_3_joint", elementType = uint8, measure = position),
+  (entity = "wrist_3_joint", elementType = uint8, measure = speed) ]
+Schema Hash or Schema ID
+
+Values  -  Tensor Proto
+( elementType = float64,
+  sizes = [12],
+  scanlineStride = 0,
+  dataBufferIndex = 0 )
+Tensor Values 
+[ 1.718e+00  1.660e-03  1.435e-01 -7.796e-02  5.280e-02 -7.283e-03
+  4.563e-03  1.712e-02  2.964e-03 -1.256e-02 -3.224e-03  5.039e-03]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Proto Check
+Quantities - List of Qunatities\(Entity, Element Type, Measure `\) 
+[ ( entity = "shoulder_pan_joint",
+    elementType = uint8,
+    measure = position ),
+  ( entity = "shoulder_pan_joint",
+    elementType = uint8,
+    measure = speed ),
+  ( entity = "shoulder_lift_joint",
+    elementType = uint8,
+    measure = position ),
+  ( entity = "shoulder_lift_joint",
+    elementType = uint8,
+    measure = speed ),
+  (entity = "elbow_joint", elementType = uint8, measure = position),
+  (entity = "elbow_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_1_joint", elementType = uint8, measure = position),
+  (entity = "wrist_1_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_2_joint", elementType = uint8, measure = position),
+  (entity = "wrist_2_joint", elementType = uint8, measure = speed),
+  (entity = "wrist_3_joint", elementType = uint8, measure = position),
+  (entity = "wrist_3_joint", elementType = uint8, measure = speed) ]
+Schema Hash or Schema ID
+
+Values  -  Tensor Proto
+( elementType = float64,
+  sizes = [12],
+  scanlineStride = 0,
+  dataBufferIndex = 0 )
+Tensor Values 
+[ 6.250e+00  1.886e-03  1.659e-01 -7.768e-02  6.085e-02 -6.957e-03
+  3.303e-03  1.859e-02  3.943e-03 -1.368e-02 -3.211e-03  5.026e-03]
+
+
+[ 1.718e+00  1.660e-03  1.435e-01 -7.796e-02  5.280e-02 -7.283e-03 4.563e-03  1.712e-02  2.964e-03 -1.256e-02 -3.224e-03  5.039e-03]
+
+[ 6.250e+00  1.886e-03  1.659e-01 -7.768e-02  6.085e-02 -6.957e-03 3.303e-03  1.859e-02  3.943e-03 -1.368e-02 -3.211e-03  5.026e-03]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Inside TICK Sophia Output
+Length of Quantities 4
+Length of Tensor :  4
+Quantities of 
+LOGDEBUG  ---------- Length/Count of quantities 4
+LOGDEBUG ---------- Priniting entire message.json : {'quantities': 
+                                                                  [{'entity': '13', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}},
+                                                                   {'entity': '17', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}},
+                                                                   {'entity': '19', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}}, 
+                                                                   {'entity': '21', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}}], 
+                                                      'schemaHash': '', 
+                                                      'values': {'elementType': 'float64',
+                                                                 'sizes': [4], 
+                                                                 'scanlineStride': 0, 
+                                                                 'dataBufferIndex': 0}\
+                                                    }
+LOGDEBUG  ----------  d is  3
+LOGDEBUG  ---------- PRINTING ENTIRE QUANTITIES :  [['13', 'position', 1], ['17', 'position', 1], ['19', 'position', 1], ['21', 'position', 1]]
+LOGDEBUG ---------- Printing p and q : ['13', 'position', 1] and {'entity': '13', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['17', 'position', 1] and {'entity': '13', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['19', 'position', 1] and {'entity': '13', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['21', 'position', 1] and {'entity': '13', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG  ----------  d is  3
+LOGDEBUG  ---------- PRINTING ENTIRE QUANTITIES :  [['13', 'position', 1], ['17', 'position', 1], ['19', 'position', 1], ['21', 'position', 1]]
+LOGDEBUG ---------- Printing p and q : ['13', 'position', 1] and {'entity': '17', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['17', 'position', 1] and {'entity': '17', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['19', 'position', 1] and {'entity': '17', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['21', 'position', 1] and {'entity': '17', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG  ----------  d is  3
+LOGDEBUG  ---------- PRINTING ENTIRE QUANTITIES :  [['13', 'position', 1], ['17', 'position', 1], ['19', 'position', 1], ['21', 'position', 1]]
+LOGDEBUG ---------- Printing p and q : ['13', 'position', 1] and {'entity': '19', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['17', 'position', 1] and {'entity': '19', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['19', 'position', 1] and {'entity': '19', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['21', 'position', 1] and {'entity': '19', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG  ----------  d is  3
+LOGDEBUG  ---------- PRINTING ENTIRE QUANTITIES :  [['13', 'position', 1], ['17', 'position', 1], ['19', 'position', 1], ['21', 'position', 1]]
+LOGDEBUG ---------- Printing p and q : ['13', 'position', 1] and {'entity': '21', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['17', 'position', 1] and {'entity': '21', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['19', 'position', 1] and {'entity': '21', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}} 
+LOGDEBUG ---------- Printing p and q : ['21', 'position', 1] and {'entity': '21', 'elementType': 'float64', 'measure': 'position', 'dimensions': {'coefficients': [3]}}

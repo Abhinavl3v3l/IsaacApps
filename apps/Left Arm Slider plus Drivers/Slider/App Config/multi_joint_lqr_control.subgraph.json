@@ -1,0 +1,265 @@
+{
+  "modules": ["controller", "lqr", "map", "planner", "dynamixel", "sight"],
+  "graph": {
+    "nodes": [
+      {
+        "name": "subgraph",
+        "components": [
+          {
+            "name": "ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "interface",
+            "type": "isaac::alice::Subgraph"
+          }
+        ]
+      },
+      {
+        "start_order": -100,
+        "name": "kinematic_tree",
+        "components": [
+          {
+            "name": "ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "KinematicTree",
+            "type": "isaac::map::KinematicTree"
+          },
+          {
+            "name": "KinematicTreeToPoseTree",
+            "type": "isaac::map::KinematicTreeToPoseTree"
+          }
+        ]
+      },
+      {
+        "name": "local_plan",
+        "components": [
+          {
+            "name": "ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "MultiJointLqrPlanner",
+            "type": "isaac::lqr::MultiJointLqrPlanner"
+          },
+          {
+            "name": "MultiJointPlanner",
+            "type": "isaac::planner::MultiJointPlanner"
+          }
+        ]
+      },
+      {
+        "name": "controller",
+        "components": [
+          {
+            "name": "ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "MultiJointController",
+            "type": "isaac::controller::MultiJointController"
+          }
+        ]
+      },
+      {
+        "name": "dynamixel",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "driver64",
+            "type": "isaac::dynamixel::DynamixelDriver"
+          },
+          {
+            "name": "driver106",
+            "type": "isaac::dynamixel::DynamixelDriver"
+          },
+          {
+            "name": "driver430",
+            "type": "isaac::dynamixel::DynamixelDriver"
+          },
+          {
+            "name": "Dynamixel Motors",
+            "type": "isaac::sight::SightWidget"
+          }
+        ]
+      },
+      {
+        "name": "driver_sophia_input",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "DriverInputControl",
+            "type": "isaac::alice::PyCodelet"
+          }
+        ]
+      },
+      {
+        "name": "driver_sophia_output",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "DriverOutputControl",
+            "type": "isaac::alice::PyCodelet"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "subgraph/interface/joint_state",
+        "target": "kinematic_tree/KinematicTreeToPoseTree/state"
+      },
+      {
+        "source": "subgraph/interface/joint_state",
+        "target": "local_plan/MultiJointPlanner/starting_state"
+      },
+      {
+        "source": "subgraph/interface/joint_target",
+        "target": "local_plan/MultiJointPlanner/target_state"
+      },
+      {
+        "source": "local_plan/MultiJointPlanner/plan",
+        "target": "controller/MultiJointController/plan"
+      },
+      {
+        "source": "controller/MultiJointController/command",
+        "target": "subgraph/interface/joint_command"
+      },
+      {
+        "source": "driver_sophia_input/DriverInputControl/command_106",
+        "target": "dynamixel/driver106/command"
+      },
+      {
+        "source": "driver_sophia_input/DriverInputControl/command_64",
+        "target": "dynamixel/driver64/command"
+      },
+      {
+        "source": "driver_sophia_input/DriverInputControl/command_430",
+        "target": "dynamixel/driver430/command"
+      },
+      {
+        "source": "dynamixel/driver106/state",
+        "target": "driver_sophia_output/DriverOutputControl/state_106"
+      },
+      {
+        "source": "dynamixel/driver64/state",
+        "target": "driver_sophia_output/DriverOutputControl/state_64"
+      },
+      {
+        "source": "dynamixel/driver430/state",
+        "target": "driver_sophia_output/DriverOutputControl/state_430"
+      },
+      {
+        "source": "driver_sophia_output/DriverOutputControl/state",
+        "target": "subgraph/interface/joint_command"
+      },
+      {
+        "source": "subgraph/interface/joint_state",
+        "target": "driver_sophia_input/DriverInputControl/command"
+      }
+    ]
+  },
+  "config": {
+    "kinematic_tree": {
+      "KinematicTreeToPoseTree": {
+        "kinematic_tree": "$(fullname kinematic_tree)",
+        "root_frame": "world"
+      }
+    },
+    "local_plan": {
+      "MultiJointPlanner": {
+        "tick_period": "10Hz",
+        "kinematic_tree_node_name": "$(fullname kinematic_tree)",
+        "multi_joint_planner_node_name": "$(fullname local_plan)"
+      }
+    },
+    "controller": {
+      "MultiJointController": {
+        "tick_period": "100Hz",
+        "kinematic_tree": "$(fullname kinematic_tree)"
+      }
+    },
+    "dynamixel": {
+      "driver64": {
+        "tick_period": "50Hz",
+        "port": "/dev/ttyUSB0",
+        "servo_ids": [15],
+        "servo_model": "MX64",
+        "baudrate": "k1M",
+        "max_speed": 4.8,
+        "debug_mode": false,
+        "debug_speed": 1.0,
+        "debug_position_mode": false,
+        "position": 2000,
+        "speed": 1.0
+      },
+      "driver106": {
+        "tick_period": "50Hz",
+        "port": "/dev/ttyUSB0",
+        "servo_ids": [9, 11],
+        "servo_model": "MX106",
+        "baudrate": "k1M",
+        "max_speed": 3.0,
+        "debug_mode": false,
+        "debug_speed": 1.0,
+        "debug_position_mode": false,
+        "position": 2000,
+        "speed": 1.0
+      },
+      "driver430": {
+        "tick_period": "50Hz",
+        "port": "/dev/ttyUSB0",
+        "servo_ids": [13, 17, 19, 21],
+        "servo_model": "XM430",
+        "baudrate": "k1M",
+        "debug_mode": false,
+        "debug_speed": 1.0,
+        "control_mode": "position",
+        "max_speed": 3.0,
+        "debug_position_mode": false,
+        "position": 2000,
+        "speed": 2.0
+      }
+    },
+    "Dynamixel Motors": {
+      "type": "plot",
+      "channels": [
+        {
+          "name": "dynamixel/driver/motor_1.command"
+        },
+        {
+          "name": "dynamixel/driver/motor_2.command"
+        },
+        {
+          "name": "dynamixel/driver/motor_3.command"
+        },
+        {
+          "name": "dynamixel/driver/motor_4.command"
+        },
+        {
+          "name": "dynamixel/driver/motor_1.state"
+        },
+        {
+          "name": "dynamixel/driver/motor_2.state"
+        },
+        {
+          "name": "dynamixel/driver/motor_3.state"
+        },
+        {
+          "name": "dynamixel/driver/motor_4.state"
+        }
+      ]
+    }
+  }
+}

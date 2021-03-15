@@ -1,0 +1,134 @@
+{
+    "links": [
+      {
+        "name" : "base",
+        "motor": {
+          "type": "constant",
+          "properties": {
+            "pose": [1, 0, 0, 0, 0, 0, 0]
+          }
+        }
+      },
+      {
+        "name" : "9",
+        "parent": "base",
+        "motor": {
+          "type": "revolute",
+          "properties": {
+            "axis": [1, 0, 0]
+          }
+        }
+      },
+      {
+        "name" : "11",
+        "parent": "base",
+        "motor": {
+          "type": "revolute",
+          "properties": {
+            "axis": [0, 1, 0]
+          }
+        }
+      },
+      {
+        "name" : "axis1",
+	"parent": "9",
+        "motor": {
+          "type": "constant",
+          "properties": {
+            "pose": [-0.5, -0.5, -0.5, 0.5, 0.0, 0.0, 0.1409]
+          }
+        }
+      },
+      {
+        "name" : "13",
+        "parent": "axis1",
+        "motor": {
+          "type": "revolute",
+          "properties": {
+            "axis": [0, 0, 1]
+          }
+        }
+      },
+      {
+        "name" : "axis2",
+        "parent": "13",
+        "motor": {
+          "type": "constant",
+          "properties": {
+            "pose": [-0.5, -0.5, -0.5, 0.5, 0.0, 0.0, 0.201]
+          }
+        }
+      },
+     {
+        "name" : "15",
+        "parent": "axis2",
+        "motor": {
+          "type": "revolute",
+          "properties": {
+            "axis": [1, 0, 0]
+          }
+        }
+      },
+      {
+        "name" : "axis3",
+        "parent": "15",
+        "motor": {
+          "type": "constant",
+          "properties": {
+            "pose": [-0.5, -0.5, -0.5, 0.5, 0.0, 0.0, 0.154]
+          }
+        }
+      },
+      {
+        "name" : "17",
+        "parent": "axis3",
+        "motor": {
+          "type": "revolute",
+          "properties": {
+            "axis": [0, 0, 1]
+          }
+        }
+      },
+      {
+        "name" : "axis4",
+        "parent": "17",
+        "motor": {
+          "type": "constant",
+          "properties": {
+            "pose": [-0.5, -0.5, -0.5, 0.5, 0.0, 0.0, 0.136]
+          }
+        }
+      },
+      {
+        "name" : "19",
+        "parent": "axis4",
+        "motor": {
+          "type": "revolute",
+          "properties": {
+            "axis": [1, 0, 0]
+          }
+        }
+      },
+      {
+        "name" : "21",
+        "parent": "axis4",
+        "motor": {
+          "type": "revolute",
+          "properties": {
+            "axis": [0, 1, 0]
+          }
+        }
+      },
+      {
+        "name" : "axis5",
+        "parent": "21",
+        "motor": {
+          "type": "constant",
+          "properties": {
+            "pose": [-0.5, -0.5, -0.5, 0.5, 0.0, 0.0, 0.0909]
+          }
+        }
+      }
+    ]
+  }
+  
