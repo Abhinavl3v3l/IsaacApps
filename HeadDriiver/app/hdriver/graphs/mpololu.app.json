@@ -1,0 +1,90 @@
+{
+  "name": "hdriver",
+  "modules": [
+    "//genesis/pololu",
+    "//genesis/genesis_sight"
+  ],
+  "config": {
+    "Maestro12": {
+      "MAESTRO12": {
+        "tick_period": "50Hz",
+        "port": "/dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FT2MZZ48-if00-port0",
+        "device12": "/dev/serial/by-id/usb-Pololu_Corporation_Pololu_Mini_Maestro_12-Channel_USB_Servo_Controller_00232818-if00",
+        "device_24": "/dev/serial/by-id/usb-Pololu_Corporation_Pololu_Mini_Maestro_24-Channel_USB_Servo_Controller_00231982-if00",
+        "pololu_type": "MINI_12",
+        "protocol": "POLOLU",
+        "device_number": 12.0,
+        "pspeed": 0,
+        "pmax_speed": 0,
+        "pacceleration": 0,
+        "pmax_acceleration": 0,
+        "baudrate": "k1M",
+        "servo_ids": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      }
+    }
+  },
+  "graph": {
+    "nodes": [
+      {
+        "name": "Maestro12",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "MAESTRO12",
+            "type": "isaac::pololu::PololuHeadDriver"
+          }
+        ]
+      },
+      {
+        "name": "Mgen",
+        "components": [
+          {
+            "name": "message_ledger",
+            "type": "isaac::alice::MessageLedger"
+          },
+          {
+            "name": "POLOLU",
+            "type": "isaac::alice::PyCodelet"
+          }
+        ]
+      },
+      {
+        "name": "head_widget",
+        "components": [
+            {
+                "name": "message_ledger",
+                "type": "isaac::alice::MessageLedger"
+            },
+            {
+                "name": "h_widget",
+                "type": "genesis::sight::GenesisWidget"
+            }
+        ]
+    }
+
+    ],
+    "edges": [
+      {
+        "source": "head_widget/h_widget/data",
+        "target": "Mgen/POLOLU/command"
+      },
+      {
+        "source": "Mgen/POLOLU/command",
+        "target": "Maestro12/MAESTRO12/command"
+      },
+      {
+        "source": "Maestro12/MAESTRO12/state",
+        "target": "Mgen/POLOLU/state"
+      }
+    ]
+  }
+}
